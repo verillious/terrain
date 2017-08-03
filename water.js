@@ -6,16 +6,18 @@
  *	   2. flux[i] is the total amount of water entering cell i
  *		(where 1 is the amount of water entering the map)
  *	   3. erosionRate[i] is the rate of soil removal in cell i
- *
- * NOTE:  I clearly do not yet understand fillSinks
  */
 "use strict";
 
 /**
- * findSinks - ??? appears to be partially implemented ???
+ * findSinks - find the bottoms of all sinks
  *	for each point ... find the bottom of the slope
+ *		if it is an edge, sinks[i] = -2
+ #		if it is a local minimum sinks[i] = minimum node #
  *
  * @param	height map
+ *
+ * NOTE: this appears to be unused
  */
 function findSinks(h) {
     var dh = downhill(h);
@@ -40,12 +42,10 @@ function findSinks(h) {
 }
 
 /**
- * fillsinks - HELP
+ * fillsinks
  *
- *	I am troubled.  I expected this to fill an area
- *	to the height of its lowest boundary, but what
- *	it actually seems to do is fill it to the height
- *	of its highest neighbor.  I need to run some tests.
+ *	find nodes that are lower than ALL of their neighbors
+ *	and raise them to the level of their lowest neighbor.
  *
  * @param	height map
  * @param	deminimus altitude difference
@@ -65,22 +65,28 @@ function fillSinks(h, epsilon) {
         }
     }
 
-    // loop until we stop making changes
+    // interate until we stop making changes
     while (true) {
         var changed = false;
 	// for each cell in height map
         for (var i = 0; i < h.length; i++) {
+	    // that has not yet returned to its original height
             if (newh[i] == h[i]) continue;
 
-	    // newh[i] = height[my tallest neighbor]
+	    // consider all of its neighbors
             var nbs = neighbours(h.mesh, i);
             for (var j = 0; j < nbs.length; j++) {
-		// if I am higher than my neighbor, use my actual height
+		// if I am higher than any neighbor, return to my original height
                 if (h[i] >= newh[nbs[j]] + epsilon) {
                     newh[i] = h[i];
                     changed = true;
                     break;
                 }
+
+		// If I still have an exaggerated height, and this neighbor is
+		// taller than me, reduce my claimed height to his claimed height.
+		// This will end when I claim to be no taller than the shortest
+		// neighbor who is taller than I am.
                 var oh = newh[nbs[j]] + epsilon;
                 if ((newh[i] > oh) && (oh > h[i])) {
                     newh[i] = oh;
