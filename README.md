@@ -39,7 +39,15 @@ If you do make something interesting with this code, please do still let me know
    * adapt it for use in a try-and-tweak world-generation model.
    * enable it to export a variety of map overlays.
  
+# Status
 
+In June I concluded that I could learn a great deal from mewo2's code
+(he came up with several simplifying assumptions that greatly reduced
+computation while still yielding satisfying results), but that Javascript
+was not the language in which I was going to build a GUI world editor that
+loaded and produced local files.  In July I started working on a Java
+WorldBuilder: https://github.com/markkampe/Java_Terrain/ .
 
-
+That is coming along nicely, and once I have it doing what I need, I will
+return to finish the re-module-ization and commenting of this fork.
 
