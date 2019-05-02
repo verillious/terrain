@@ -2,7 +2,7 @@
 
 /**
  * runif: random number within a range
- * 
+ *
  * @param lo	low end of range
  * @param hi	high end of range
  * @return	number between lo and hi
@@ -14,7 +14,7 @@ function runif(lo, hi) {
 /**
  * rnorm - (kinky) random vector generation
  *
- *	This routine is meant to be called twice, and returns 
+ *	This routine is meant to be called twice, and returns
  *	first an X coordinate, and then a Y coordiante.
  */
 var rnorm = (function () {
@@ -47,7 +47,7 @@ var rnorm = (function () {
 
 /**
  * randomVector - generate a random vector
- * 
+ *
  * @param	maximum size
  * @return	<x,y> coordinate
  */
@@ -75,7 +75,7 @@ function cleanCoast(h, iters) {
                 if (h[nbs[j]] > 0) {
                     count++;
                 } else if (h[nbs[j]] > best) {
-                    best = h[nbs[j]];    
+                    best = h[nbs[j]];
                 }
             }
             if (count > 1) continue;
@@ -387,7 +387,7 @@ function drawLabels(svg, render) {
             if (terr[j] != city) score -= 3000;
             for (var k = 0; k < cities.length; k++) {
                 var u = h.mesh.vxs[cities[k]];
-                if (Math.abs(v[0] - u[0]) < sx && 
+                if (Math.abs(v[0] - u[0]) < sx &&
                     Math.abs(v[1] - sy/2 - u[1]) < sy) {
                     score -= k < nterrs ? 4000 : 500;
                 }
@@ -418,10 +418,10 @@ function drawLabels(svg, render) {
             }
         }
         reglabels.push({
-            text: text, 
-            x: h.mesh.vxs[best][0], 
-            y: h.mesh.vxs[best][1], 
-            size:sy, 
+            text: text,
+            x: h.mesh.vxs[best][0],
+            y: h.mesh.vxs[best][1],
+            size:sy,
             width:sx
         });
     }
@@ -460,9 +460,9 @@ function doMap(svg, params) {
     };
     var width = svg.attr('width');
     svg.attr('height', width * params.extent.height / params.extent.width);
-    svg.attr('viewBox', -1000 * params.extent.width/2 + ' ' + 
-                        -1000 * params.extent.height/2 + ' ' + 
-                        1000 * params.extent.width + ' ' + 
+    svg.attr('viewBox', -1000 * params.extent.width/2 + ' ' +
+                        -1000 * params.extent.height/2 + ' ' +
+                        1000 * params.extent.width + ' ' +
                         1000 * params.extent.height);
     svg.selectAll().remove();
     render.h = params.generator(params);

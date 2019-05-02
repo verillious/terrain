@@ -41,7 +41,7 @@ function cityScore(h, cities) {
 
 /**
  * placeCity -	compute scores and place a city in the best location
- * 
+ *
  * @param	world map and parameters
  * 		updates cities list in world map
  */
