@@ -2,16 +2,16 @@
 <html lang="en">
 
 	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="./terrain.css">
+        <link rel="stylesheet" href="../css/terrain.css">
 	<title>TerrainTest</title>
-        
+
 	<style type="text/css">
 		:root #content > #center > .dose > .dosesingle,
 		:root #content > #right > .dose > .dosesingle
 		{ display: none !important; }
 	</style>
 </head>
-<body> 
+<body>
 	<div class="note">
 		<!-- Imported modules:
 			D3 Voronoi tesselation is used for mesh generation.
@@ -52,7 +52,7 @@
 			stroke-linecap: butt;
 		    }
 
-		    text {	
+		    text {
 			font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
 			color: black;
 			stroke: white;
@@ -73,22 +73,22 @@
 		</style>
 
 		<!-- modules of the terrain generator -->
-		<script src="./mesh.js"></script>
-		<script src="./height.js"></script>
-		<script src="./water.js"></script>
-		<script src="./cities.js"></script>
-		<script src="./terrain.js"></script>
+		<script src="../js/mesh.js"></script>
+		<script src="../js/height.js"></script>
+		<script src="../js/water.js"></script>
+		<script src="../js/cities.js"></script>
+		<script src="../js/terrain.js"></script>
 
 		<!-- create the display divisions used in the demo -->
-		<div class="example" id="mesh"> </div>	
-		<div class="example" id="prim"> </div>	
-		<div class="example" id="erode"> </div>	
-		<div class="example" id="phys"> </div>	
-		<div class="example" id="city"> </div>	
-		<div class="example" id="final"> </div>	
+		<div class="example" id="mesh"> </div>
+		<div class="example" id="prim"> </div>
+		<div class="example" id="erode"> </div>
+		<div class="example" id="phys"> </div>
+		<div class="example" id="city"> </div>
+		<div class="example" id="final"> </div>
 
 		<!-- populate them with rendering controls -->
-		<script src="./test.js"></script>
+		<script src="../js/test.js"></script>
 	</div>
 </body>
 </html>

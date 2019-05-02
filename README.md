@@ -1,14 +1,15 @@
-[demo](test.html)
+[site](verillious.github.io/terrain)
+[demo](html/index.html)
 
 # This is a fork of mewo2/terrain, created:
 * because the owner (Martin O'Leary) considers it to be complete
     and has moved on to other projects.
 * I want to take it in a slightly different direction.
-    The creator's goal was a fantasy Atlas.  My goal is to create a 
+    The creator's goal was a fantasy Atlas.  My goal is to create a
     plausible geograpic/resource/village/trade foundation for FRPG
     development.
-* I want to find a way to make it easier for other people to 
-    change design decision parameters and engines (so they can 
+* I want to find a way to make it easier for other people to
+    change design decision parameters and engines (so they can
     change the way that worlds unfold).
 
 # Original Creator Information and License
@@ -42,7 +43,7 @@ If you do make something interesting with this code, please do still let me know
 4. usage enhancements
    * adapt it for use in a try-and-tweak world-generation model.
    * enable it to export a variety of map overlays.
- 
+
 # Status
 
 In June I concluded that I could learn a great deal from mewo2's code
