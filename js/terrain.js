@@ -459,7 +459,7 @@ function doMap(svg, params) {
         params: params
     };
     var width = svg.attr('width');
-    svg.attr('height', width * params.extent.height / params.extent.width);
+    svg.attr('length', width * params.extent.height / params.extent.width);
     svg.attr('viewBox', -1000 * params.extent.width/2 + ' ' +
                         -1000 * params.extent.height/2 + ' ' +
                         1000 * params.extent.width + ' ' +

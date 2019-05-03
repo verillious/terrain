@@ -19,8 +19,8 @@
  */
 function addSVG(div) {
     return div.insert("svg", ":first-child")
-        .attr("height", "50%")
-        .attr("width", "50%")
+        .attr("height", "100%")
+        .attr("width", "100%")
         .attr("viewBox", "-500 -500 1000 1000");
 }
 
@@ -209,7 +209,7 @@ function addSVG(div) {
 
 // function erodeDraw() {
 //     if (erodeViewErosion) {
-//         visualizeVoronoi(erodeSVG, erosionRate(erodeH));
+//         onoi(erodeSVG, erosionRate(erodeH));
 //     } else {
 //         visualizeVoronoi(erodeSVG, erodeH, 0, 1);
 //     }
@@ -437,16 +437,3 @@ finalDiv.append("button")
     .on("click", function () {
         doMap(finalSVG, defaultParams);
     });
-
-// var lineData = [[x, y, [x, y+200]]
-
-// //This is the accessor function we talked about above
-// var lineFunction = d3.line()
-//                         .curve(d3.curveBasis)
-
-// var pathString = lineFunction(lineData);
-// // drawPaths(svg, "test", pathString)
-// // //The line SVG Path we draw
-// var lineGraph = svg.append("path")
-//                             .attr("d", pathString)
-//                             .attr("stroke-width", 10)

@@ -207,6 +207,7 @@ function visualizeCities(svg, render) {
             .remove();
 
     // larger circles for capitols
+    getRoads(svg, render);
     svg.selectAll('circle.city')
         .attr('cx', function (d) {return 1000*h.mesh.vxs[d][0]})
         .attr('cy', function (d) {return 1000*h.mesh.vxs[d][1]})
@@ -240,5 +241,80 @@ function terrCenter(h, terr, city, landOnly) {
         n++;
     }
     return [x/n, y/n];
+}
+
+/**
+ * getRoads - construct roads between cities
+ *
+ * @param	stroke vector graphics
+ * @param	world map info
+ */
+function getRoads(svg, render) {
+
+    var n = render.cities.length
+    var h = render.h;
+    render.roads = render.roads || [];
+    var cities = render.cities;
+
+    for (var i = 0; i < n; i++) {
+        var x = 1000 * h.mesh.vxs[cities[i]][0]
+        var y = 1000 * h.mesh.vxs[cities[i]][1]
+        render.roads.push([x, y])
+    }
+
+    let voronoi = d3.voronoi()
+        .x((d) => { return d[0] })
+        .y((d) => { return d[1] })
+        .extent([[-500, -500], [500, 500]])
+
+    var path = svg.append("g").selectAll("path");
+
+    path.data(voronoi.triangles(render.roads)).enter().append("path")
+        .attr("d", function (d) {
+            return "M" + d.join("L") + "Z"
+        })
+        .attr("stroke-width", 2);
+
+    // var n = render.params.nterrs;
+
+    // // remove all existing city circles from map
+    // var rects = svg.selectAll("rect")
+    //     .data(cities)
+    //     .enter()
+    //     .append("rect")
+
+    // var rectAttributes = rects
+    //     .attr('x', function (d) {return 1000*h.mesh.vxs[d][0]})
+    //     .attr('y', function (d) {return 1000*h.mesh.vxs[d][1]})
+    //     .attr('width', function (d, i) { return i >= n ? 4 : 10 })
+    //     .attr('height', function (d, i) {return i >= n ? 4 : 10})
+    //     .style('fill', 'red')
+    //     .style('stroke-width', 5)
+    //     .style('stroke-linecap', 'round')
+    //     .style('stroke', 'black')
+    //     .raise();
+
+
+    // var lineFunction = d3.line()
+    //     .x(function (d) { return 1000 * h.mesh.vxs[d][0] })
+    //     .y(function (d) { return 1000 * h.mesh.vxs[d][1] })
+    //     .curve(d3.curveLinear);
+
+
+    // var pathString = lineFunction(cities);
+
+    // var lineGraph = svg.append("path")
+    //     .attr("d", pathString)
+    //     .attr("stroke-width", 5);
+
+    // var vor = d3.voronoi(render.roads)
+    // console.log(vor)
+
+    // const COLORS = ['#F3E0A0', '#E09E9B', '#C0E9B8', '#8D9CB5'];
+
+    // const canvas = d3.select("canvas").node();
+    // const context = canvas.getContext("2d");
+    // const { width, height } = canvas;
+
 }
 
