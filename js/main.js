@@ -19,8 +19,8 @@
  */
 function addSVG(div) {
     return div.insert("svg", ":first-child")
-        .attr("height", "100%")
-        .attr("width", "100%")
+        .attr("height", "50%")
+        .attr("width", "50%")
         .attr("viewBox", "-500 -500 1000 1000");
 }
 

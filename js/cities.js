@@ -262,18 +262,72 @@ function getRoads(svg, render) {
         render.roads.push([x, y])
     }
 
-    let voronoi = d3.voronoi()
-        .x((d) => { return d[0] })
-        .y((d) => { return d[1] })
-        .extent([[-500, -500], [500, 500]])
+    var n = render.roads.length
+    var graph = createGraph()
+    // var apath = ngraphPath()
+    for (var i = 0; i < h.mesh.vxs.length; i++){
+        graph.addNode(i, {x: h.mesh.vxs[i][0], y: h.mesh.vxs[i][1]})
+    }
+    for (var i = 0; i < h.mesh.vxs.length; i++){
+        for (var j = 0; j < h.mesh.adj[i].length; j++){
+            graph.addLink(i, h.mesh.adj[i][j], {weight: 10});
+        }
+    }
 
-    var path = svg.append("g").selectAll("path");
+    let pathFinder = ngraphPath.aStar(graph, {
+        // We tell our pathfinder what should it use as a distance function:
+        distance(fromNode, toNode) {
+            // In this case we have coordinates. Lets use them as
+            // distance between two nodes:
+            let dx = fromNode.data.x - toNode.data.x;
+            let dy = fromNode.data.y - toNode.data.y;
 
-    path.data(voronoi.triangles(render.roads)).enter().append("path")
-        .attr("d", function (d) {
-            return "M" + d.join("L") + "Z"
-        })
-        .attr("stroke-width", 2);
+            return Math.sqrt(dx * dx + dy * dy);
+        },
+        heuristic(fromNode, toNode) {
+            // this is where we "guess" distance between two nodes.
+            // In this particular case our guess is the same as our distance
+            // function:
+            let dx = fromNode.data.x - toNode.data.x;
+            let dy = fromNode.data.y - toNode.data.y;
+
+            return Math.sqrt(dx * dx + dy * dy);
+        }
+    });
+    var indexTop = 0;
+    for (var i = 0; i < cities.length; i++) {
+        var m = 9999;
+        var index = 0;
+        indexTop = i;
+        for (var j = 0; j < cities.length; j++) {
+            if (i != j) {
+                var distance = Math.hypot(render.roads[i][0] - render.roads[j][0], render.roads[i][1] - render.roads[j][1])
+                if (distance < m) {
+                    m = distance;
+                    index = j;
+                }
+            }
+        }
+
+
+        var apath = pathFinder.find(cities[i], cities[index]);
+
+        console.log(apath)
+        var pathString = "M " + apath[0].data.x * 1000 + " " + apath[0].data.y * 1000
+        for (var k = 1; k < apath.length; k++){
+            var lineGenerator = d3.line();
+            pathString += " L " + apath[k].data.x * 1000 + " " + apath[k].data.y * 1000
+        }
+        var path = svg.append("path").attr("d", pathString).attr("stroke-width", 5).classed("road", true);
+        // ========
+        // // console.log("I: "+render.roads[i]+" J: "+render.roads[index])
+        // var treeString = "M "+render.roads[indexTop].join(" ")+" L "+render.roads[index].join(" ")
+        // // console.log(pathString)
+        // var tree = svg.append("path").attr("d", treeString).attr("stroke-width", 5).classed("road-tree", true);
+    }
+    // path.aStarBi(graph)
+}
+
 
     // var n = render.params.nterrs;
 
@@ -316,5 +370,16 @@ function getRoads(svg, render) {
     // const context = canvas.getContext("2d");
     // const { width, height } = canvas;
 
-}
 
+    // let voronoi = d3.voronoi()
+    //     .x((d) => { return d[0] })
+    //     .y((d) => { return d[1] })
+    //     .extent([[-500, -500], [500, 500]])
+
+    // var path = svg.append("g").selectAll("path");
+
+    // path.data(voronoi.triangles(render.roads)).enter().append("path")
+    //     .attr("d", function (d) {
+    //         return "M" + d.join("L") + "Z"
+    //     })
+    //     .attr("stroke-width", 2);

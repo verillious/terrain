@@ -79,6 +79,18 @@ path, line {
     stroke-linecap: butt;
     }
 
+    .road {
+        stroke-width: 3;
+        stroke: red;
+        stroke-linecap: round;
+    }
+
+    .road-tree {
+        stroke-width: 3;
+        stroke: lightcoral;
+        stroke-linecap: round;
+    }
+
     text {
     font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
     color: black;
