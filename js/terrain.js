@@ -449,7 +449,14 @@ function drawMap(svg, render) {
     drawPaths(svg, 'river', render.rivers);
     drawPaths(svg, 'coast', render.coasts);
     drawPaths(svg, 'border', render.borders);
-    visualizeSlopes(svg, render);
+
+    var increment = 0.1;
+    var a = 0;
+    for (var i = 0; i <= 1; i += increment){
+        drawPaths(svg, "coast" + a, contour(render.h, i).map(relaxPath));
+        a++;
+    }
+    // visualizeSlopes(svg, render);
     visualizeCities(svg, render);
     drawLabels(svg, render);
 }
@@ -464,7 +471,7 @@ function doMap(svg, params) {
                         -1000 * params.extent.height/2 + ' ' +
                         1000 * params.extent.width + ' ' +
                         1000 * params.extent.height);
-    svg.selectAll().remove();
+    svg.selectAll("*").remove();
     render.h = params.generator(params);
     placeCities(render);
     drawMap(svg, render);

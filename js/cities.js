@@ -208,6 +208,7 @@ function visualizeCities(svg, render) {
 
     // larger circles for capitols
     getRoads(svg, render);
+
     svg.selectAll('circle.city')
         .attr('cx', function (d) {return 1000*h.mesh.vxs[d][0]})
         .attr('cy', function (d) {return 1000*h.mesh.vxs[d][1]})
@@ -273,7 +274,6 @@ function getRoads(svg, render) {
             graph.addLink(i, h.mesh.adj[i][j], {weight: 10});
         }
     }
-
     let pathFinder = ngraphPath.aStar(graph, {
         // We tell our pathfinder what should it use as a distance function:
         distance(fromNode, toNode) {
@@ -282,7 +282,7 @@ function getRoads(svg, render) {
             let dx = fromNode.data.x - toNode.data.x;
             let dy = fromNode.data.y - toNode.data.y;
 
-            return Math.sqrt(dx * dx + dy * dy);
+            return Math.sqrt(dx * dx + dy * dy) * (render.h[toNode.id] - render.h[fromNode.id]);
         },
         heuristic(fromNode, toNode) {
             // this is where we "guess" distance between two nodes.
@@ -309,77 +309,16 @@ function getRoads(svg, render) {
             }
         }
 
+        var treeString = "M "+render.roads[indexTop].join(" ")+" L "+render.roads[index].join(" ")
+        var tree = svg.append("path").attr("d", treeString).attr("stroke-width", 5).classed("road-tree", true);
 
         var apath = pathFinder.find(cities[i], cities[index]);
-
-        console.log(apath)
         var pathString = "M " + apath[0].data.x * 1000 + " " + apath[0].data.y * 1000
         for (var k = 1; k < apath.length; k++){
             var lineGenerator = d3.line();
             pathString += " L " + apath[k].data.x * 1000 + " " + apath[k].data.y * 1000
         }
         var path = svg.append("path").attr("d", pathString).attr("stroke-width", 5).classed("road", true);
-        // ========
-        // // console.log("I: "+render.roads[i]+" J: "+render.roads[index])
-        // var treeString = "M "+render.roads[indexTop].join(" ")+" L "+render.roads[index].join(" ")
-        // // console.log(pathString)
-        // var tree = svg.append("path").attr("d", treeString).attr("stroke-width", 5).classed("road-tree", true);
+
     }
-    // path.aStarBi(graph)
 }
-
-
-    // var n = render.params.nterrs;
-
-    // // remove all existing city circles from map
-    // var rects = svg.selectAll("rect")
-    //     .data(cities)
-    //     .enter()
-    //     .append("rect")
-
-    // var rectAttributes = rects
-    //     .attr('x', function (d) {return 1000*h.mesh.vxs[d][0]})
-    //     .attr('y', function (d) {return 1000*h.mesh.vxs[d][1]})
-    //     .attr('width', function (d, i) { return i >= n ? 4 : 10 })
-    //     .attr('height', function (d, i) {return i >= n ? 4 : 10})
-    //     .style('fill', 'red')
-    //     .style('stroke-width', 5)
-    //     .style('stroke-linecap', 'round')
-    //     .style('stroke', 'black')
-    //     .raise();
-
-
-    // var lineFunction = d3.line()
-    //     .x(function (d) { return 1000 * h.mesh.vxs[d][0] })
-    //     .y(function (d) { return 1000 * h.mesh.vxs[d][1] })
-    //     .curve(d3.curveLinear);
-
-
-    // var pathString = lineFunction(cities);
-
-    // var lineGraph = svg.append("path")
-    //     .attr("d", pathString)
-    //     .attr("stroke-width", 5);
-
-    // var vor = d3.voronoi(render.roads)
-    // console.log(vor)
-
-    // const COLORS = ['#F3E0A0', '#E09E9B', '#C0E9B8', '#8D9CB5'];
-
-    // const canvas = d3.select("canvas").node();
-    // const context = canvas.getContext("2d");
-    // const { width, height } = canvas;
-
-
-    // let voronoi = d3.voronoi()
-    //     .x((d) => { return d[0] })
-    //     .y((d) => { return d[1] })
-    //     .extent([[-500, -500], [500, 500]])
-
-    // var path = svg.append("g").selectAll("path");
-
-    // path.data(voronoi.triangles(render.roads)).enter().append("path")
-    //     .attr("d", function (d) {
-    //         return "M" + d.join("L") + "Z"
-    //     })
-    //     .attr("stroke-width", 2);
